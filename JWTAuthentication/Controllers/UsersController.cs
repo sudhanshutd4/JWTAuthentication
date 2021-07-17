@@ -2,6 +2,7 @@
 {
     using JWTAuthentication.Data;
     using JWTAuthentication.Entities;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,8 @@
         }
 
         [HttpGet]
+        [AllowAnonymous]
+        
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
         {
             return await _dataContext.Users.ToListAsync();          
@@ -29,6 +32,7 @@
 
         //api/users/id
         [HttpGet("{id}")]
+        [Authorize]
         public async Task <ActionResult<AppUser>> GetUser(int id)
         {
             return await _dataContext.Users.FindAsync(id);
